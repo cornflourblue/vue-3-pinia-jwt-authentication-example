@@ -17,4 +17,4 @@ export const useUsersStore = defineStore({
                 .catch(error => this.users = { error })
         }
     }
-})
+});

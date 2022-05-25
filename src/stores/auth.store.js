@@ -30,4 +30,4 @@ export const useAuthStore = defineStore({
             router.push('/login');
         }
     }
-})
+});
