@@ -1,3 +1,5 @@
+import { useAuthStore } from '@/stores';
+
 export const fetchWrapper = {
     get: request('GET'),
     post: request('POST'),
@@ -23,7 +25,7 @@ function request(method) {
 
 function authHeader(url) {
     // return auth header with jwt if user is logged in and request is to the api url
-    const user = JSON.parse(localStorage.getItem('user'));
+    const { user } = useAuthStore();
     const isLoggedIn = !!user?.token;
     const isApiUrl = url.startsWith(import.meta.env.VITE_API_URL);
     if (isLoggedIn && isApiUrl) {
@@ -38,10 +40,10 @@ function handleResponse(response) {
         const data = text && JSON.parse(text);
         
         if (!response.ok) {
-            if ([401, 403].includes(response.status) && localStorage.getItem('user')) {
+            const { user, logout } = useAuthStore();
+            if ([401, 403].includes(response.status) && user) {
                 // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
-                localStorage.removeItem('user');
-                location.href = '/login';
+                logout();
             }
 
             const error = (data && data.message) || response.statusText;

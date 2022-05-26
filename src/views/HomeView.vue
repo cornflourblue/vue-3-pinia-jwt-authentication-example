@@ -14,7 +14,7 @@ usersStore.getAll();
 
 <template>
     <div>
-        <h1>Hi {{authUser.firstName}}!</h1>
+        <h1>Hi {{authUser?.firstName}}!</h1>
         <p>You're logged in with Vue 3 + Pinia & JWT!!</p>
         <h3>Users from secure api end point:</h3>
         <ul v-if="users.length">
